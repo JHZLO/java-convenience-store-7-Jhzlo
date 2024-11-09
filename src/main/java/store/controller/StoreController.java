@@ -39,6 +39,8 @@ public class StoreController {
 
         Receipt receipt = new Receipt(orderProducts, price);
         System.out.println(receipt);
+
+        String userInput = inputView.readAdditionalPurchase();
     }
 
     private Orders inputOrderProduct(Products products) {
