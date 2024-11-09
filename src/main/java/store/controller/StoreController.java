@@ -14,5 +14,6 @@ public class StoreController {
 
     public void run() {
         outputView.printHeaderNotice();
+        outputView.printProductNotice();
     }
 }
