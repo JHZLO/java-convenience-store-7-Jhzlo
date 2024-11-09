@@ -22,12 +22,28 @@ public class StoreController {
     }
 
     public void run() {
-        outputView.printHeaderNotice();
-        outputView.printProductNotice();
-
         Promotions promotions = new Promotions("promotions.md");
         Products products = new Products("products.md", promotions);
         products.addProductWithoutPromotion();
+
+        boolean flag = true;
+        while (flag) {
+            try {
+                useConvenienceStore(products, promotions);
+                String userInput = inputView.readAdditionalPurchase();
+                InputValidator.validateUserInput(userInput);
+                flag = "Y".equals(userInput);
+            } catch (IllegalArgumentException e) {
+                outputView.printResult(e.getMessage());
+            }
+        }
+    }
+
+    public void useConvenienceStore(Products products, Promotions promotions) {
+        outputView.printHeaderNotice();
+        outputView.printProductNotice();
+
+        // 최신 재고 상태 출력
         outputView.printResult(products.getProductsAsString());
 
         Orders orders = inputOrderProduct(products);
@@ -39,8 +55,6 @@ public class StoreController {
 
         Receipt receipt = new Receipt(orderProducts, price);
         System.out.println(receipt);
-
-        String userInput = inputView.readAdditionalPurchase();
     }
 
     private Orders inputOrderProduct(Products products) {
