@@ -1,8 +1,9 @@
 package store.controller;
 
+import store.domain.Products;
 import store.view.InputView;
 import store.view.OutputView;
-import store.model.Promotions;
+import store.domain.Promotions;
 
 public class StoreController {
     private InputView inputView;
@@ -18,5 +19,7 @@ public class StoreController {
         outputView.printProductNotice();
 
         Promotions promotions = new Promotions("promotions.md");
+        Products products = new Products("products.md", promotions);
+        outputView.printResult(products.getProductsAsString());
     }
 }
