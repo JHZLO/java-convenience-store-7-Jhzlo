@@ -30,6 +30,7 @@ public class StoreController {
         List<OrderProduct> orderProducts = orders.getOrderProducts();
         handlePromotion(orderProducts);
 
+        handleMembership();
         outputView.printResult(products.getProductsAsString());
     }
 
@@ -84,6 +85,22 @@ public class StoreController {
                 }
                 if ("N".equals(userInput)) {
                     return false;
+                }
+            } catch (IllegalArgumentException e) {
+                outputView.printResult(e.getMessage());
+            }
+        }
+    }
+
+    private void handleMembership() {
+        while (true) {
+            try {
+                String userInput = inputView.readUseMemberShip();
+                InputValidator.validateUserInput(userInput);
+
+                if ("Y".equals(userInput)) {
+                }
+                if ("N".equals(userInput)) {
                 }
             } catch (IllegalArgumentException e) {
                 outputView.printResult(e.getMessage());
