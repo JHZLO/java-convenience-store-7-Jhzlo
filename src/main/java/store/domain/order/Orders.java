@@ -4,7 +4,6 @@ import static store.constants.ErrorMessage.ERROR_INVALID_FORMAT;
 
 import java.util.ArrayList;
 import java.util.List;
-import store.domain.Membership;
 import store.domain.product.Products;
 import store.util.InputParser;
 
@@ -43,7 +42,7 @@ public class Orders {
         return orderProducts;
     }
 
-    public List<OrderProduct> getOrderProducts(){
+    public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
 }

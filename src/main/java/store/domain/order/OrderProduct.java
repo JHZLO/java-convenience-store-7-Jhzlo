@@ -104,7 +104,7 @@ public class OrderProduct {
                 .mapToInt(Product::getQuantity) // 해당 상품의 재고 수량 추출
                 .sum(); // 재고 합산
 
-        return quantity > promotionStock; // 요청된 혜택 개수가 프로모션 재고보다 크면 true
+        return quantity >= promotionStock; // 요청된 혜택 개수가 프로모션 재고보다 크면 true
     }
 
     public int getTotalBenefit() {

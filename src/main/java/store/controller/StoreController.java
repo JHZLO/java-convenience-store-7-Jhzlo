@@ -79,8 +79,10 @@ public class StoreController {
                         if (!handleInsufficientPromotionStock(orderProduct)) {
                             break;
                         }
-                        ;
+                        orderProduct.buyProduct();
+                        break;
                     }
+                    totalDiscountQuantity = orderProduct.calculateDiscountQuantity();
                     orderProduct.buyProduct();
                     if (orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
                         String userInput = inputView.readPromotionBenefit(orderProduct.getName(),
@@ -91,6 +93,7 @@ public class StoreController {
                             orderProduct.applyPromotion(orderProduct.getBenefitCount());
                         }
                         if ("N".equals(userInput)) {
+                            totalDiscountQuantity = 0;
                         }
                     }
                     break;
