@@ -6,7 +6,6 @@ import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.util.List;
-import store.domain.Membership;
 import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 
@@ -57,14 +56,14 @@ public class OrderProduct {
 
     public int getBenefitCount() {
         Product product = getProductByPromotion();
-        if (hasBenefitPromotion() && hasPromotionOnDate()) {
+        if (hasAcquireBenefitPromotion() && hasPromotionOnDate()) {
             Promotion promotion = product.getPromotion();
             return promotion.getBenefitCount();
         }
         return 0;
     }
 
-    public boolean hasBenefitPromotion() {
+    public boolean hasAcquireBenefitPromotion() {
         Product product = getProductByPromotion();
         if (product != null) {
             Promotion promotion = product.getPromotion();
@@ -108,10 +107,10 @@ public class OrderProduct {
         return quantity > promotionStock; // 요청된 혜택 개수가 프로모션 재고보다 크면 true
     }
 
-    public int getTotalBenefit(){
+    public int getTotalBenefit() {
         int result = 0;
-        for(Product product : products){
-            if(product.hasPromotion()){
+        for (Product product : products) {
+            if (product.hasPromotion()) {
                 result = quantity - product.getQuantity();
             }
         }
@@ -127,8 +126,8 @@ public class OrderProduct {
         }
     }
 
-    public int calculatePromotionDiscount() {
-        int totalDiscount = 0;
+    public int calculateDiscountQuantity() {
+        int totalDiscountQuantity = 0;
 
         for (Product product : products) {
             if (product.hasPromotion()) {
@@ -137,7 +136,19 @@ public class OrderProduct {
                 int benefitCount = promotion.getBenefitCount(); // 혜택 수량 (예: 1)
 
                 int applicablePromotionSets = quantity / (buyCount + benefitCount); // 프로모션 세트 수 계산
-                int discountQuantity = applicablePromotionSets * benefitCount; // 할인받은 상품 개수
+                totalDiscountQuantity += applicablePromotionSets * benefitCount; // 할인받은 상품 개수
+            }
+        }
+
+        return totalDiscountQuantity;
+    }
+
+    public int calculatePromotionDiscount() {
+        int totalDiscount = 0;
+
+        for (Product product : products) {
+            if (product.hasPromotion()) {
+                int discountQuantity = calculateDiscountQuantity(); // 할인받은 상품 개수
                 totalDiscount += discountQuantity * product.getPrice(); // 총 할인 금액 계산
             }
         }
@@ -145,9 +156,14 @@ public class OrderProduct {
         return totalDiscount;
     }
 
-    public void setResetQuantity(){
+    public void setResetQuantity() {
         this.quantity = 0;
     }
+
+    public int getPrice() {
+        return quantity * getProduct().get(0).getPrice();
+    }
+
 
     public int getQuantity() {
         return quantity;

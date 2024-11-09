@@ -2,6 +2,7 @@ package store.controller;
 
 import java.util.List;
 import store.domain.Membership;
+import store.domain.Receipt;
 import store.domain.order.OrderProduct;
 import store.domain.order.Orders;
 import store.domain.order.Price;
@@ -35,6 +36,8 @@ public class StoreController {
         Membership membership = handleMembership();
         Price price = new Price(orderProducts, membership);
 
+        Receipt receipt = new Receipt(orderProducts, price);
+        System.out.println(receipt);
     }
 
     private Orders inputOrderProduct(Products products) {
@@ -52,14 +55,14 @@ public class StoreController {
         for (OrderProduct orderProduct : orderProducts) {
             while (true) {
                 try {
-                    if (orderProduct.isBenefitExceedsPromotionStock()) {
+                    if (orderProduct.isBenefitExceedsPromotionStock() && orderProduct.hasPromotionOnDate()) {
                         if (!handleInsufficientPromotionStock(orderProduct)) {
                             break;
                         }
                         ;
                     }
                     orderProduct.buyProduct();
-                    if (orderProduct.hasBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
+                    if (orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
                         String userInput = inputView.readPromotionBenefit(orderProduct.getName(),
                                 orderProduct.getBenefitCount());
                         InputValidator.validateUserInput(userInput); // 유효성 검사
