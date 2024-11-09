@@ -22,5 +22,18 @@ public class StoreController {
         Promotions promotions = new Promotions("promotions.md");
         Products products = new Products("products.md", promotions);
         outputView.printResult(products.getProductsAsString());
+
+        Orders orders = inputOrderProduct(products);
+    }
+
+    private Orders inputOrderProduct(Products products) {
+        while (true) {
+            try {
+                String input = inputView.readOrderProduct();
+                return new Orders(input, products);
+            } catch (IllegalArgumentException e) {
+                outputView.printResult(e.getMessage());
+            }
+        }
     }
 }
