@@ -24,6 +24,7 @@ public class StoreController {
         outputView.printResult(products.getProductsAsString());
 
         Orders orders = inputOrderProduct(products);
+        outputView.printResult(products.getProductsAsString());
     }
 
     private Orders inputOrderProduct(Products products) {

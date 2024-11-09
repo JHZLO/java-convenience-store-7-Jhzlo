@@ -36,22 +36,9 @@ public class Orders {
             if (menu.length == MENU_LENGTH) {
                 String name = menu[PRODUCT_NAME_INDEX];
                 int quantity = InputParser.parseInt(menu[PRODUCT_QUANTITY_INDEX]);
-                orderProducts.add(new OrderProduct(products.getProductByName(name), quantity));
+                orderProducts.add(new OrderProduct(products.findProductsByName(name), quantity));
             }
         }
         return orderProducts;
-    }
-
-    public void buyGeneralProducts() {
-        List<OrderProduct> generalProducts = getGeneralProducts();
-        for (OrderProduct orderProduct : generalProducts) {
-            orderProduct.buyProduct();
-        }
-    }
-
-    private List<OrderProduct> getGeneralProducts() {
-        return orderProducts.stream()
-                .filter(orderProduct -> !orderProduct.hasPromotionOnDate())
-                .collect(Collectors.toList());
     }
 }

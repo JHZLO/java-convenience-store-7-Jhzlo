@@ -1,9 +1,13 @@
 package store.domain;
 
+import static store.constants.ErrorMessage.ERROR_NON_EXISTENT_PRODUCT;
+import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import store.util.FileReader;
 import store.util.InputParser;
 
@@ -35,38 +39,20 @@ public class Products {
         }
     }
 
+    public List<Product> findProductsByName(String productName) {
+        List<Product> matchingProducts = products.stream()
+                .filter(product -> product.getName().equals(productName))
+                .collect(Collectors.toList());
+
+        if (matchingProducts.isEmpty()) {
+            throw new IllegalArgumentException(ERROR_NON_EXISTENT_PRODUCT);
+        }
+
+        return matchingProducts;
+    }
+
     private boolean hasPromotionValue(String[] parts) {
         return parts.length > PRODUCTS_LENGTH && !parts[PROMOTION_INDEX].equals("null");
-    }
-
-    public Product getProductByName(String name) {
-        for (Product product : products) {
-            if (product.isValidProductName(name)) {
-                return product;
-            }
-        }
-        return null;
-    }
-
-    private Product findProductWithPromotion(String name, LocalDateTime orderDate) {
-        for (Product product : products) {
-            if (product.isValidProductName(name) && product.hasPromotion()) {
-                Promotion promotion = product.getPromotion();
-                if (promotion.isApplicableOnDate(orderDate)) {
-                    return product;
-                }
-            }
-        }
-        return null;
-    }
-
-    private Product findProductWithoutPromotion(String name) {
-        for (Product product : products) {
-            if (product.isValidProductName(name) && !product.hasPromotion()) {
-                return product;
-            }
-        }
-        return null;
     }
 
     public String getProductsAsString() {
