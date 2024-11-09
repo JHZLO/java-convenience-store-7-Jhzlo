@@ -1,5 +1,6 @@
 package store.controller;
 
+import store.domain.Orders;
 import store.domain.Products;
 import store.view.InputView;
 import store.view.OutputView;
