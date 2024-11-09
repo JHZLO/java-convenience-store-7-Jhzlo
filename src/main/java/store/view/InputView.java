@@ -14,6 +14,12 @@ public class InputView {
         return Console.readLine();
     }
 
+    public String readContinueBuy(String productName, Integer benefitCount) {
+        System.out.printf("현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)", productName, benefitCount);
+        printWhiteSpace();
+        return Console.readLine();
+    }
+
     private void printWhiteSpace() {
         System.out.println();
     }

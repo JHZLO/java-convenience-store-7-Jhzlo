@@ -52,13 +52,13 @@ public class OrderProduct {
         }
     }
 
-    public Integer getBenefitCount() {
+    public int getBenefitCount() {
         Product product = getProductByPromotion();
         if (hasBenefitPromotion() && hasPromotionOnDate()) {
             Promotion promotion = product.getPromotion();
             return promotion.getBenefitCount();
         }
-        return null;
+        return 0;
     }
 
     public boolean hasBenefitPromotion() {
@@ -96,12 +96,30 @@ public class OrderProduct {
         return false;
     }
 
-    public void applyPromotion(int benefitCount){
+    public boolean isBenefitExceedsPromotionStock() {
+        int promotionStock = products.stream()
+                .filter(Product::hasPromotion) // 프로모션이 있는 상품만 필터링
+                .mapToInt(Product::getQuantity) // 해당 상품의 재고 수량 추출
+                .sum(); // 재고 합산
+
+        return quantity > promotionStock; // 요청된 혜택 개수가 프로모션 재고보다 크면 true
+    }
+
+    public int getTotalBenefit(){
+        int result = 0;
         for(Product product : products){
-            if(product.hasPromotion() && product.getQuantity() >= benefitCount){
+            if(product.hasPromotion()){
+                result = quantity - product.getQuantity();
+            }
+        }
+        return result + 1; // TODO : 로직 수정해야할듯
+    }
+
+    public void applyPromotion(int benefitCount) {
+        for (Product product : products) {
+            if (product.hasPromotion() && product.getQuantity() >= benefitCount) {
                 product.updateQuantity(benefitCount);
             }
-            // TODO: 수량 적을시엔 물어볼 거임
         }
     }
 
@@ -113,10 +131,10 @@ public class OrderProduct {
         return products;
     }
 
-    public String getName(){
+    public String getName() {
         String productName = null;
-        for(Product product : products){
-            productName =  product.getName();
+        for (Product product : products) {
+            productName = product.getName();
         }
         return productName;
     }

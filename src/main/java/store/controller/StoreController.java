@@ -48,6 +48,11 @@ public class StoreController {
         for(OrderProduct orderProduct : orderProducts){
             while (true) {
                 try {
+                    if(orderProduct.isBenefitExceedsPromotionStock()){
+                        if(!handleInsufficientPromotionStock(orderProduct)){
+                            break;
+                        };
+                    }
                     orderProduct.buyProduct();
                     if (orderProduct.hasBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
                         String userInput = inputView.readPromotionBenefit(orderProduct.getName(),
@@ -58,11 +63,30 @@ public class StoreController {
                         }
                         if ("N".equals(userInput)) {
                         }
-                        break;
                     }
+                    break;
                 }catch (IllegalArgumentException e){
                     outputView.printResult(e.getMessage());
                 }
+            }
+        }
+    }
+
+
+    private boolean handleInsufficientPromotionStock(OrderProduct orderProduct) {
+        while (true) {
+            try {
+                String userInput = inputView.readContinueBuy(orderProduct.getName(), orderProduct.getTotalBenefit());
+                InputValidator.validateUserInput(userInput);
+
+                if ("Y".equals(userInput)) {
+                    return true;
+                }
+                if ("N".equals(userInput)) {
+                    return false;
+                }
+            } catch (IllegalArgumentException e) {
+                outputView.printResult(e.getMessage());
             }
         }
     }
