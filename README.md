@@ -187,6 +187,19 @@
 ---
 
 ## 💻 라이브러리
-- [ ] `camp.nextstep.edu.missionutils`에서 제공하는 DateTimes 및 Console API를 사용하여 구현해야 한다.
+- [x] `camp.nextstep.edu.missionutils`에서 제공하는 DateTimes 및 Console API를 사용하여 구현해야 한다.
     - 현재 날짜와 시간을 가져오려면 camp.nextstep.edu.missionutils.DateTimes의 `now()`를 활용한다.
     - 사용자가 입력하는 값은 camp.nextstep.edu.missionutils.Console의 `readLine()`을 활용한다.
+
+---
+
+## 🪄 해결해야하는 문제
+- [ ] 2+1에서 혜택을 딱 못받는 경우
+  - ex: 사이다-5 남았을 때 사이다-5 주문
+    - 이럴 땐 혜택 적용 문구 X
+
+- [ ] 행사 상품을 초과하여 주문해서 일반재고에서 처리하는 경우
+  - 영수증에 행사 할인이 그대로 적용되는 문제 해결
+
+- [x] 프로모션 재고가 부족하여 일부 수량을 프로모션 혜택 없이 결제해야 하는 경우
+  - 개수 로직 수정하기

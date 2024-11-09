@@ -108,18 +108,21 @@ public class OrderProduct {
     }
 
     public int getTotalBenefit() {
-        int result = 0;
+        int remainingPromotion = 0;
+        int generalProduct = 0;
         for (Product product : products) {
             if (product.hasPromotion()) {
-                result = quantity - product.getQuantity();
+                remainingPromotion += product.getQuantity() % (product.getPromotionBenifitCount()
+                        + product.getPromotionBuyCount()); // 2+1 상품이면 3으로 나눴을 때 나머지
+                generalProduct = quantity - product.getQuantity();
             }
         }
-        return result + 1; // TODO : 로직 수정해야할듯
+        return remainingPromotion + generalProduct;
     }
 
     public void applyPromotion(int benefitCount) {
         for (Product product : products) {
-            if (product.hasPromotion() && product.getQuantity() >= benefitCount) {
+            if (product.hasPromotion() && product.getQuantity() >= quantity + benefitCount) {
                 product.updateQuantity(benefitCount);
                 this.quantity += benefitCount;
             }
