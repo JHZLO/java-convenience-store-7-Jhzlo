@@ -43,20 +43,6 @@ public class Orders {
         return orderProducts;
     }
 
-    public int applyMembershipDiscount(Membership membership) {
-        int totalFinalAmount = 0;
-
-        for (OrderProduct orderProduct : orderProducts) {
-            int totalPrice = orderProduct.getQuantity() * orderProduct.getProduct().get(0).getPrice(); // 총 금액
-            int promotionDiscount = orderProduct.calculatePromotionDiscount(); // 프로모션 할인
-            int remainingAmount = totalPrice - promotionDiscount; // 남은 금액
-            int membershipDiscount = membership.calculateDiscount(remainingAmount); // 멤버십 할인 계산
-            totalFinalAmount += (remainingAmount - membershipDiscount); // 최종 결제 금액 누적
-        }
-
-        return totalFinalAmount;
-    }
-
     public List<OrderProduct> getOrderProducts(){
         return orderProducts;
     }

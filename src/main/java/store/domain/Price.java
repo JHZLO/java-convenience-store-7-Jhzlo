@@ -6,10 +6,12 @@ import store.domain.order.OrderProduct;
 public class Price {
     private final List<OrderProduct> orderProducts;
     private final Membership membership;
+    private final int discountQuantity;
 
-    public Price(List<OrderProduct> orderProducts, Membership membership) {
+    public Price(List<OrderProduct> orderProducts, Membership membership, int discountQuantity) {
         this.orderProducts = orderProducts;
         this.membership = membership;
+        this.discountQuantity = discountQuantity;
     }
 
     public int calculateTotalPrice() {
@@ -23,7 +25,7 @@ public class Price {
     public int calculatePromotionDiscount() {
         int totalDiscount = 0;
         for (OrderProduct orderProduct : orderProducts) {
-            totalDiscount += orderProduct.calculatePromotionDiscount();
+            totalDiscount += orderProduct.calculatePromotionDiscount(discountQuantity);
         }
         return totalDiscount;
     }
@@ -32,7 +34,7 @@ public class Price {
         int totalDiscount = 0;
         for (OrderProduct orderProduct : orderProducts) {
             int totalPrice = orderProduct.getQuantity() * orderProduct.getProduct().get(0).getPrice();
-            int promotionDiscount = orderProduct.calculatePromotionDiscount();
+            int promotionDiscount = orderProduct.calculatePromotionDiscount(discountQuantity);
             int remainingAmount = totalPrice - promotionDiscount;
             totalDiscount += membership.calculateDiscount(remainingAmount);
         }

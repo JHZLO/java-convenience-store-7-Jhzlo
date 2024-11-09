@@ -4,6 +4,7 @@ import java.util.List;
 import store.domain.Membership;
 import store.domain.Price;
 import store.domain.Receipt;
+import store.domain.dto.PromotionResultDto;
 import store.domain.order.OrderProduct;
 import store.domain.order.Orders;
 import store.domain.product.Products;
@@ -48,12 +49,12 @@ public class StoreController {
 
         Orders orders = inputOrderProduct(products);
         List<OrderProduct> orderProducts = orders.getOrderProducts();
-        orderProducts = handlePromotion(orderProducts);
+        PromotionResultDto promotionResultDto = handlePromotion(orderProducts);
 
         Membership membership = handleMembership();
-        Price price = new Price(orderProducts, membership);
+        Price price = new Price(promotionResultDto.orderProducts(), membership, promotionResultDto.discountQuantity());
 
-        Receipt receipt = new Receipt(orderProducts, price);
+        Receipt receipt = new Receipt(orderProducts, price, promotionResultDto.discountQuantity());
         System.out.println(receipt);
     }
 
@@ -68,11 +69,13 @@ public class StoreController {
         }
     }
 
-    private List<OrderProduct> handlePromotion(List<OrderProduct> orderProducts) {
+    private PromotionResultDto handlePromotion(List<OrderProduct> orderProducts) {
+        int totalDiscountQuantity = 0;
         for (OrderProduct orderProduct : orderProducts) {
             while (true) {
                 try {
                     if (orderProduct.isBenefitExceedsPromotionStock() && orderProduct.hasPromotionOnDate()) {
+                        totalDiscountQuantity = orderProduct.calculateDiscountQuantity();
                         if (!handleInsufficientPromotionStock(orderProduct)) {
                             break;
                         }
@@ -84,6 +87,7 @@ public class StoreController {
                                 orderProduct.getBenefitCount());
                         InputValidator.validateUserInput(userInput); // 유효성 검사
                         if ("Y".equals(userInput)) {
+                            totalDiscountQuantity = orderProduct.calculateDiscountQuantity();
                             orderProduct.applyPromotion(orderProduct.getBenefitCount());
                         }
                         if ("N".equals(userInput)) {
@@ -95,7 +99,7 @@ public class StoreController {
                 }
             }
         }
-        return orderProducts;
+        return new PromotionResultDto(orderProducts, totalDiscountQuantity);
     }
 
 

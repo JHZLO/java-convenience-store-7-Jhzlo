@@ -134,11 +134,11 @@ public class OrderProduct {
 
         for (Product product : products) {
             if (product.hasPromotion()) {
-                Promotion promotion = product.getPromotion();
-                int buyCount = promotion.getBuyCount(); // 구매 조건 수량 (예: 2)
-                int benefitCount = promotion.getBenefitCount(); // 혜택 수량 (예: 1)
+                int buyCount = product.getPromotionBuyCount();
+                int benefitCount = product.getPromotionBenifitCount();
 
-                int applicablePromotionSets = quantity / (buyCount + benefitCount); // 프로모션 세트 수 계산
+                int applicableStock = Math.min(product.getQuantity(), quantity);
+                int applicablePromotionSets = applicableStock / (buyCount + benefitCount); // 프로모션 세트 수 계산
                 totalDiscountQuantity += applicablePromotionSets * benefitCount; // 할인받은 상품 개수
             }
         }
@@ -146,12 +146,11 @@ public class OrderProduct {
         return totalDiscountQuantity;
     }
 
-    public int calculatePromotionDiscount() {
+    public int calculatePromotionDiscount(int discountQuantity) {
         int totalDiscount = 0;
 
         for (Product product : products) {
             if (product.hasPromotion() && hasPromotionOnDate()) {
-                int discountQuantity = calculateDiscountQuantity(); // 할인받은 상품 개수
                 totalDiscount += discountQuantity * product.getPrice(); // 총 할인 금액 계산
             }
         }

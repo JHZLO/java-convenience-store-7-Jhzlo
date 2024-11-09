@@ -9,9 +9,9 @@ public class Receipt {
     private final List<String> giftDetails; // 증정 상품 내역
     private final Price price;
 
-    public Receipt(List<OrderProduct> orderProducts, Price price) {
+    public Receipt(List<OrderProduct> orderProducts, Price price, int discountQuantity) {
         this.purchaseDetails = parsePurchaseDetails(orderProducts);
-        this.giftDetails = parseGiftDetails(orderProducts);
+        this.giftDetails = parseGiftDetails(orderProducts, discountQuantity);
         this.price = price;
     }
 
@@ -30,13 +30,13 @@ public class Receipt {
     }
 
     // 증정 내역 생성
-    private List<String> parseGiftDetails(List<OrderProduct> orderProducts) {
+    private List<String> parseGiftDetails(List<OrderProduct> orderProducts, int discountQuantity) {
         List<String> gift = new ArrayList<>();
         for (OrderProduct orderProduct : orderProducts) {
             if (orderProduct.hasPromotionOnDate()) {
                 gift.add(String.format("%s\t\t%,d",
                         orderProduct.getName(),
-                        orderProduct.calculateDiscountQuantity()
+                        discountQuantity
                 ));
             }
         }
