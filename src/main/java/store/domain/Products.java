@@ -55,6 +55,16 @@ public class Products {
         return parts.length > PRODUCTS_LENGTH && !parts[PROMOTION_INDEX].equals("null");
     }
 
+    public Promotion getPromotionByName(String productName){ // name으로 프로모션을 가지고 있는지 조회
+        for(Product product : products){
+            if(product.getName().equals(productName)){
+                if(product.hasPromotion()){
+                    return product.getPromotion();
+                }
+            }
+        }
+        return null;
+    }
     public String getProductsAsString() {
         StringBuilder result = new StringBuilder();
         for (Product product : products) {

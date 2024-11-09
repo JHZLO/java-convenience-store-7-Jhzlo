@@ -3,8 +3,8 @@ package store.domain;
 import static store.constants.ErrorMessage.ERROR_INVALID_FORMAT;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import store.util.InputParser;
 
 public class Orders {
@@ -39,6 +39,10 @@ public class Orders {
                 orderProducts.add(new OrderProduct(products.findProductsByName(name), quantity));
             }
         }
+        return orderProducts;
+    }
+
+    public List<OrderProduct> getOrderProducts(){
         return orderProducts;
     }
 }

@@ -52,6 +52,14 @@ public class Product {
         return String.format("- %s %d원 %s %s", name, price, quantityText, promotionText);
     }
 
+    public int getPromotionBuyCount() {
+        return promotion.getBuyCount();
+    }
+
+    public int getPromotionBenifitCount() {
+        return promotion.getBenefitCount();
+    }
+
     public Promotion getPromotion() {
         return promotion;
     }

@@ -1,7 +1,10 @@
 package store.controller;
 
+import java.util.List;
+import store.domain.OrderProduct;
 import store.domain.Orders;
 import store.domain.Products;
+import store.util.InputValidator;
 import store.view.InputView;
 import store.view.OutputView;
 import store.domain.Promotions;
@@ -24,6 +27,9 @@ public class StoreController {
         outputView.printResult(products.getProductsAsString());
 
         Orders orders = inputOrderProduct(products);
+        List<OrderProduct> orderProducts = orders.getOrderProducts();
+        handlePromotion(orderProducts);
+
         outputView.printResult(products.getProductsAsString());
     }
 
@@ -34,6 +40,29 @@ public class StoreController {
                 return new Orders(input, products);
             } catch (IllegalArgumentException e) {
                 outputView.printResult(e.getMessage());
+            }
+        }
+    }
+
+    private void handlePromotion(List<OrderProduct> orderProducts){
+        for(OrderProduct orderProduct : orderProducts){
+            while (true) {
+                try {
+                    orderProduct.buyProduct();
+                    if (orderProduct.hasBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
+                        String userInput = inputView.readPromotionBenefit(orderProduct.getName(),
+                                orderProduct.getBenefitCount());
+                        InputValidator.validateUserInput(userInput); // 유효성 검사
+                        if ("Y".equals(userInput)) {
+                            orderProduct.applyPromotion(orderProduct.getBenefitCount());
+                        }
+                        if ("N".equals(userInput)) {
+                        }
+                        break;
+                    }
+                }catch (IllegalArgumentException e){
+                    outputView.printResult(e.getMessage());
+                }
             }
         }
     }
