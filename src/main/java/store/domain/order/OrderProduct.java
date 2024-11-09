@@ -6,13 +6,14 @@ import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.util.List;
+import store.domain.Membership;
 import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 
 public class OrderProduct {
     private static final Integer MIN_QUANTITY = 1;
     private final List<Product> products; // 행사 중인 상품과 행사하지 않는 상품으로 나뉠 수 있으니까
-    private final Integer quantity;
+    private Integer quantity;
     private final LocalDateTime orderDate;
 
     public OrderProduct(List<Product> products, int quantity) {
@@ -121,8 +122,31 @@ public class OrderProduct {
         for (Product product : products) {
             if (product.hasPromotion() && product.getQuantity() >= benefitCount) {
                 product.updateQuantity(benefitCount);
+                this.quantity += benefitCount;
             }
         }
+    }
+
+    public int calculatePromotionDiscount() {
+        int totalDiscount = 0;
+
+        for (Product product : products) {
+            if (product.hasPromotion()) {
+                Promotion promotion = product.getPromotion();
+                int buyCount = promotion.getBuyCount(); // 구매 조건 수량 (예: 2)
+                int benefitCount = promotion.getBenefitCount(); // 혜택 수량 (예: 1)
+
+                int applicablePromotionSets = quantity / (buyCount + benefitCount); // 프로모션 세트 수 계산
+                int discountQuantity = applicablePromotionSets * benefitCount; // 할인받은 상품 개수
+                totalDiscount += discountQuantity * product.getPrice(); // 총 할인 금액 계산
+            }
+        }
+
+        return totalDiscount;
+    }
+
+    public void setResetQuantity(){
+        this.quantity = 0;
     }
 
     public int getQuantity() {

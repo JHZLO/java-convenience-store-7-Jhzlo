@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
 import store.util.FileReader;
@@ -56,16 +55,17 @@ public class Products {
         return parts.length > PRODUCTS_LENGTH && !parts[PROMOTION_INDEX].equals("null");
     }
 
-    public Promotion getPromotionByName(String productName){ // name으로 프로모션을 가지고 있는지 조회
-        for(Product product : products){
-            if(product.getName().equals(productName)){
-                if(product.hasPromotion()){
+    public Promotion getPromotionByName(String productName) { // name으로 프로모션을 가지고 있는지 조회
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                if (product.hasPromotion()) {
                     return product.getPromotion();
                 }
             }
         }
         return null;
     }
+
     public String getProductsAsString() {
         StringBuilder result = new StringBuilder();
         for (Product product : products) {

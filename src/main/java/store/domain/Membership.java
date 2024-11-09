@@ -1,7 +1,7 @@
 package store.domain;
 
 public class Membership {
-    private static final double DISCOUNT_RATE = 0.3; 
+    private static final double DISCOUNT_RATE = 0.3;
     private static final int MAX_DISCOUNT = 8000;
 
     private final boolean isMember;

@@ -1,13 +1,15 @@
 package store.controller;
 
 import java.util.List;
+import store.domain.Membership;
 import store.domain.order.OrderProduct;
 import store.domain.order.Orders;
+import store.domain.order.Price;
 import store.domain.product.Products;
+import store.domain.promotion.Promotions;
 import store.util.InputValidator;
 import store.view.InputView;
 import store.view.OutputView;
-import store.domain.promotion.Promotions;
 
 public class StoreController {
     private InputView inputView;
@@ -28,10 +30,11 @@ public class StoreController {
 
         Orders orders = inputOrderProduct(products);
         List<OrderProduct> orderProducts = orders.getOrderProducts();
-        handlePromotion(orderProducts);
+        orderProducts = handlePromotion(orderProducts);
 
-        handleMembership();
-        outputView.printResult(products.getProductsAsString());
+        Membership membership = handleMembership();
+        Price price = new Price(orderProducts, membership);
+
     }
 
     private Orders inputOrderProduct(Products products) {
@@ -45,14 +48,15 @@ public class StoreController {
         }
     }
 
-    private void handlePromotion(List<OrderProduct> orderProducts){
-        for(OrderProduct orderProduct : orderProducts){
+    private List<OrderProduct> handlePromotion(List<OrderProduct> orderProducts) {
+        for (OrderProduct orderProduct : orderProducts) {
             while (true) {
                 try {
-                    if(orderProduct.isBenefitExceedsPromotionStock()){
-                        if(!handleInsufficientPromotionStock(orderProduct)){
+                    if (orderProduct.isBenefitExceedsPromotionStock()) {
+                        if (!handleInsufficientPromotionStock(orderProduct)) {
                             break;
-                        };
+                        }
+                        ;
                     }
                     orderProduct.buyProduct();
                     if (orderProduct.hasBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
@@ -66,11 +70,12 @@ public class StoreController {
                         }
                     }
                     break;
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     outputView.printResult(e.getMessage());
                 }
             }
         }
+        return orderProducts;
     }
 
 
@@ -84,6 +89,7 @@ public class StoreController {
                     return true;
                 }
                 if ("N".equals(userInput)) {
+                    orderProduct.setResetQuantity();
                     return false;
                 }
             } catch (IllegalArgumentException e) {
@@ -92,15 +98,17 @@ public class StoreController {
         }
     }
 
-    private void handleMembership() {
+    private Membership handleMembership() {
         while (true) {
             try {
                 String userInput = inputView.readUseMemberShip();
                 InputValidator.validateUserInput(userInput);
-
+                Membership membership;
                 if ("Y".equals(userInput)) {
+                    return new Membership(true);
                 }
                 if ("N".equals(userInput)) {
+                    return new Membership(false);
                 }
             } catch (IllegalArgumentException e) {
                 outputView.printResult(e.getMessage());
