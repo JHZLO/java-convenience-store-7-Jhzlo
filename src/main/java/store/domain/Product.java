@@ -33,7 +33,7 @@ public class Product {
         return true;
     }
 
-    public boolean onDatePromotion(LocalDateTime orderDate){
+    public boolean onDatePromotion(LocalDateTime orderDate) {
         return promotion.isApplicableOnDate(orderDate);
     }
 
@@ -56,11 +56,11 @@ public class Product {
         return promotion;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getPrice(){
+    public int getPrice() {
         return price;
     }
 

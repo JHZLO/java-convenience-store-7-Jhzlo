@@ -39,6 +39,14 @@ public class Products {
         return parts.length > PRODUCTS_LENGTH && !parts[PROMOTION_INDEX].equals("null");
     }
 
+    public Product getProductByName(String name) {
+        for (Product product : products) {
+            if (product.isValidProductName(name)) {
+                return product;
+            }
+        }
+        return null;
+    }
 
     private Product findProductWithPromotion(String name, LocalDateTime orderDate) {
         for (Product product : products) {
