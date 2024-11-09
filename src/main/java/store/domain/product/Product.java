@@ -50,7 +50,7 @@ public class Product {
         } else {
             quantityText = "재고없음";
         }
-        return String.format("- %s %d원 %s %s", name, price, quantityText, promotionText);
+        return String.format("- %s %,d원 %s %s", name, price, quantityText, promotionText);
     }
 
     public int getPromotionBuyCount() {

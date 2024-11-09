@@ -3,8 +3,10 @@ package store.domain.product;
 import static store.constants.ErrorMessage.ERROR_NON_EXISTENT_PRODUCT;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
@@ -33,11 +35,33 @@ public class Products {
             int quantity = InputParser.parseInt(parts[QUANTITY_INDEX]);
             String promotionName = null;
             if (hasPromotionValue(parts)) {
-                promotionName = parts[PROMOTION_INDEX].trim();
+                promotionName = parts[PROMOTION_INDEX];
             }
             products.add(new Product(name, price, quantity, promotions.findPromotionByName(promotionName)));
         }
     }
+
+    public void addProductWithoutPromotion() {
+        Set<String> processedNames = new HashSet<>();
+
+        List<Product> originalProducts = new ArrayList<>(products);
+
+        for (Product product : originalProducts) {
+            String productName = product.getName();
+
+            if (processedNames.contains(productName)) {
+                continue;
+            }
+            List<Product> sameNameProducts = findProductsByName(productName);
+
+            boolean hasOnlyPromotionalStock = sameNameProducts.size() == 1 && product.hasPromotion();
+            if (hasOnlyPromotionalStock) {
+                products.add(new Product(productName, product.getPrice(), 0, null));
+            }
+            processedNames.add(productName);
+        }
+    }
+
 
     public List<Product> findProductsByName(String productName) {
         List<Product> matchingProducts = products.stream()
@@ -66,15 +90,33 @@ public class Products {
         return null;
     }
 
-    public String getProductsAsString() {
-        StringBuilder result = new StringBuilder();
-        for (Product product : products) {
-            result.append(product.toString()).append("\n");
-        }
-        return result.toString();
+    private Map<String, List<Product>> groupProductsByName(List<Product> products) {
+        return products.stream()
+                .collect(Collectors.groupingBy(Product::getName));
     }
 
-    public List<Product> getProducts() {
-        return Collections.unmodifiableList(products);
+    public String getProductsAsString() {
+        StringBuilder result = new StringBuilder();
+        Map<String, List<Product>> groupedProducts = groupProductsByName(products);
+
+        for (Map.Entry<String, List<Product>> entry : groupedProducts.entrySet()) {
+            String productName = entry.getKey();
+            List<Product> productList = entry.getValue();
+
+            // 상품 이름 기준으로 출력
+            for (Product product : productList) {
+                String promotionText = product.hasPromotion() ? product.getPromotion().getPromotionName() : "";
+                String quantityText = product.getQuantity() > 0 ? product.getQuantity() + "개" : "재고 없음";
+
+                result.append(String.format("- %s %,d원 %s %s\n",
+                        product.getName(),
+                        product.getPrice(),
+                        quantityText,
+                        promotionText
+                ));
+            }
+        }
+
+        return result.toString();
     }
 }

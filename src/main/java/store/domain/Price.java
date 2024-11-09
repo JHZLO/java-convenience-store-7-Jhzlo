@@ -1,7 +1,7 @@
-package store.domain.order;
+package store.domain;
 
 import java.util.List;
-import store.domain.Membership;
+import store.domain.order.OrderProduct;
 
 public class Price {
     private final List<OrderProduct> orderProducts;

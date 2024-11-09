@@ -147,7 +147,7 @@ public class OrderProduct {
         int totalDiscount = 0;
 
         for (Product product : products) {
-            if (product.hasPromotion()) {
+            if (product.hasPromotion() && hasPromotionOnDate()) {
                 int discountQuantity = calculateDiscountQuantity(); // 할인받은 상품 개수
                 totalDiscount += discountQuantity * product.getPrice(); // 총 할인 금액 계산
             }

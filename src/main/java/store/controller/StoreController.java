@@ -2,10 +2,10 @@ package store.controller;
 
 import java.util.List;
 import store.domain.Membership;
+import store.domain.Price;
 import store.domain.Receipt;
 import store.domain.order.OrderProduct;
 import store.domain.order.Orders;
-import store.domain.order.Price;
 import store.domain.product.Products;
 import store.domain.promotion.Promotions;
 import store.util.InputValidator;
@@ -27,6 +27,7 @@ public class StoreController {
 
         Promotions promotions = new Promotions("promotions.md");
         Products products = new Products("products.md", promotions);
+        products.addProductWithoutPromotion();
         outputView.printResult(products.getProductsAsString());
 
         Orders orders = inputOrderProduct(products);

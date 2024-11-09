@@ -3,7 +3,6 @@ package store.domain;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.order.OrderProduct;
-import store.domain.order.Price;
 
 public class Receipt {
     private final List<String> purchaseDetails; // 구매 상품 내역
