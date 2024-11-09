@@ -1,13 +1,13 @@
 package store.controller;
 
 import java.util.List;
-import store.domain.OrderProduct;
-import store.domain.Orders;
-import store.domain.Products;
+import store.domain.order.OrderProduct;
+import store.domain.order.Orders;
+import store.domain.product.Products;
 import store.util.InputValidator;
 import store.view.InputView;
 import store.view.OutputView;
-import store.domain.Promotions;
+import store.domain.promotion.Promotions;
 
 public class StoreController {
     private InputView inputView;

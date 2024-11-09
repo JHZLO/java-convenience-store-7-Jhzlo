@@ -1,8 +1,9 @@
-package store.domain;
+package store.domain.promotion;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import store.domain.promotion.Promotion;
 import store.util.FileReader;
 import store.util.InputParser;
 

@@ -1,10 +1,10 @@
-package store.domain;
+package store.domain.order;
 
 import static store.constants.ErrorMessage.ERROR_INVALID_FORMAT;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import store.domain.product.Products;
 import store.util.InputParser;
 
 public class Orders {

@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.order;
 
 import static store.constants.ErrorMessage.ERROR_GENERIC_INVALID_INPUT;
 import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
@@ -6,6 +6,8 @@ import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.util.List;
+import store.domain.product.Product;
+import store.domain.promotion.Promotion;
 
 public class OrderProduct {
     private static final Integer MIN_QUANTITY = 1;

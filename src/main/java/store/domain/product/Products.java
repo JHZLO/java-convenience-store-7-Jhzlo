@@ -1,13 +1,14 @@
-package store.domain;
+package store.domain.product;
 
 import static store.constants.ErrorMessage.ERROR_NON_EXISTENT_PRODUCT;
-import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import store.domain.product.Product;
+import store.domain.promotion.Promotion;
+import store.domain.promotion.Promotions;
 import store.util.FileReader;
 import store.util.InputParser;
 
