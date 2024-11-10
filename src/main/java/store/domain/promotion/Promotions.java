@@ -11,6 +11,7 @@ public class Promotions {
     private static final int GET_QUANTITY_INDEX = 2;
     private static final int START_DATE_INDEX = 3;
     private static final int END_DATE_INDEX = 4;
+    public static final String PROMOTION_VALUE_SPLIT_COMMA = ",";
 
     private final List<Promotion> promotions;
 
@@ -21,7 +22,7 @@ public class Promotions {
 
     public void addPromotionData(List<String> promotionData) {
         for (String data : promotionData) {
-            String[] parts = data.split(",");
+            String[] parts = data.split(PROMOTION_VALUE_SPLIT_COMMA);
             String name = parts[NAME_INDEX];
             int buy = InputParser.parseInt(parts[BUY_INDEX]);
             int get = InputParser.parseInt(parts[GET_QUANTITY_INDEX]);

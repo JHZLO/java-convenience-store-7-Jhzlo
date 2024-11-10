@@ -2,7 +2,7 @@ package store.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static store.constants.ErrorMessage.ERROR_INVALID_FORMAT;
+import static store.constants.ErrorMessage.INVALID_FORMAT;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class OrdersTest {
     void 잘못된_형식의_입력시_예외발생(String invalidInput) {
         assertThatThrownBy(() -> new Orders(invalidInput, products))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_INVALID_FORMAT);
+                .hasMessage(INVALID_FORMAT.getMessage());
     }
 
     @ParameterizedTest
@@ -34,7 +34,7 @@ class OrdersTest {
     void 공백_입력시_예외발생(String invalidInput) {
         assertThatThrownBy(() -> new Orders(invalidInput, products))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_INVALID_FORMAT);
+                .hasMessage(INVALID_FORMAT.getMessage());
     }
 
     @Test

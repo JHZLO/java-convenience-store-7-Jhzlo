@@ -3,8 +3,8 @@ package store.domain.order;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static store.constants.ErrorMessage.ERROR_GENERIC_INVALID_INPUT;
-import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+import static store.constants.ErrorMessage.GENERIC_INVALID_INPUT;
+import static store.constants.ErrorMessage.QUANTITY_EXCEEDS_STOCK;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,14 +37,14 @@ class OrderProductTest {
     void 주문_생성_재고_초과_예외발생() {
         assertThatThrownBy(() -> new OrderProduct(productsWithPromotion, 20))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_QUANTITY_EXCEEDS_STOCK);
+                .hasMessage(QUANTITY_EXCEEDS_STOCK.getMessage());
     }
 
     @Test
     void 주문_생성_재고_없음_예외발생() {
         assertThatThrownBy(() -> new OrderProduct(productsWithPromotion, 0))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_GENERIC_INVALID_INPUT);
+                .hasMessage(GENERIC_INVALID_INPUT.getMessage());
     }
 
     @Test

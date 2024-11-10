@@ -1,7 +1,7 @@
 package store.domain.order;
 
-import static store.constants.ErrorMessage.ERROR_GENERIC_INVALID_INPUT;
-import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+import static store.constants.ErrorMessage.GENERIC_INVALID_INPUT;
+import static store.constants.ErrorMessage.QUANTITY_EXCEEDS_STOCK;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class OrderProduct {
 
     private void validateQuantity(int quantity) {
         if (quantity < MIN_QUANTITY) {
-            throw new IllegalArgumentException(ERROR_GENERIC_INVALID_INPUT);
+            throw new IllegalArgumentException(GENERIC_INVALID_INPUT.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class OrderProduct {
         int totalStock = matchingProducts.stream().mapToInt(Product::getQuantity).sum();
 
         if (quantity > totalStock) {
-            throw new IllegalArgumentException(ERROR_QUANTITY_EXCEEDS_STOCK);
+            throw new IllegalArgumentException(QUANTITY_EXCEEDS_STOCK.getMessage());
         }
     }
 

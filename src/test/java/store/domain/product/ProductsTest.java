@@ -2,14 +2,13 @@ package store.domain.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static store.constants.ErrorMessage.ERROR_NON_EXISTENT_PRODUCT;
+import static store.constants.ErrorMessage.NON_EXISTENT_PRODUCT;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
-
-import java.util.List;
 
 class ProductsTest {
     private Products products;
@@ -31,7 +30,7 @@ class ProductsTest {
     void 존재하지_않는_상품명으로_재고_조회_예외발생() {
         assertThatThrownBy(() -> products.findProductsByName("존재하지않는상품"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_NON_EXISTENT_PRODUCT);
+                .hasMessage(NON_EXISTENT_PRODUCT.getMessage());
     }
 
     @Test

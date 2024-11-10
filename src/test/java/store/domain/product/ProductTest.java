@@ -1,9 +1,8 @@
 package store.domain.product;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+import static store.constants.ErrorMessage.QUANTITY_EXCEEDS_STOCK;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +31,7 @@ class ProductTest {
     void 재고차감_초과수량_예외발생() {
         assertThatThrownBy(() -> productWithPromotion.updateQuantity(15))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ERROR_QUANTITY_EXCEEDS_STOCK);
+                .hasMessage(QUANTITY_EXCEEDS_STOCK.getMessage());
     }
 
     @Test

@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Promotion {
+    public static final String DATE_TIME_FORMAT_STRING = "yyyy-MM-dd HH:mm";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT_STRING);
     private final String name;
     private final int buyCount;
     private final int benefitCount;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public Promotion(String name, int buyCount, int benefitCount, String startDate, String endDate) {
         this.name = name;

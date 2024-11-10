@@ -1,6 +1,6 @@
 package store.domain.product;
 
-import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+import static store.constants.ErrorMessage.QUANTITY_EXCEEDS_STOCK;
 
 import java.time.LocalDateTime;
 import store.domain.promotion.Promotion;
@@ -21,7 +21,7 @@ public class Product {
 
     public void updateQuantity(int count) {
         if (quantity < count) {
-            throw new IllegalArgumentException(ERROR_QUANTITY_EXCEEDS_STOCK);
+            throw new IllegalArgumentException(QUANTITY_EXCEEDS_STOCK.getMessage());
         }
         quantity -= count;
     }

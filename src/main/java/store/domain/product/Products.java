@@ -1,6 +1,6 @@
 package store.domain.product;
 
-import static store.constants.ErrorMessage.ERROR_NON_EXISTENT_PRODUCT;
+import static store.constants.ErrorMessage.NON_EXISTENT_PRODUCT;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,7 +69,7 @@ public class Products {
                 .collect(Collectors.toList());
 
         if (matchingProducts.isEmpty()) { // 유효성 검사
-            throw new IllegalArgumentException(ERROR_NON_EXISTENT_PRODUCT);
+            throw new IllegalArgumentException(NON_EXISTENT_PRODUCT.getMessage());
         }
 
         return matchingProducts;

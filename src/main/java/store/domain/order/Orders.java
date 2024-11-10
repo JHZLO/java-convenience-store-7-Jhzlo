@@ -1,6 +1,6 @@
 package store.domain.order;
 
-import static store.constants.ErrorMessage.ERROR_INVALID_FORMAT;
+import static store.constants.ErrorMessage.INVALID_FORMAT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Orders {
         if (input.matches(VALID_INPUT_PATTERN)) {
             return;
         }
-        throw new IllegalArgumentException(ERROR_INVALID_FORMAT);
+        throw new IllegalArgumentException(INVALID_FORMAT.getMessage());
     }
 
     private List<OrderProduct> addOrders(String input, Products products) {
