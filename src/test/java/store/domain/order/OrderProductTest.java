@@ -28,34 +28,34 @@ class OrderProductTest {
     }
 
     @Test
-    void 주문생성_유효성검사_성공() {
+    void 주문_생성_유효성_검사_성공() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 5);
         assertEquals(5, orderProduct.getQuantity());
     }
 
     @Test
-    void 주문생성_재고초과_예외발생() {
+    void 주문_생성_재고_초과_예외발생() {
         assertThatThrownBy(() -> new OrderProduct(productsWithPromotion, 20))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ERROR_QUANTITY_EXCEEDS_STOCK);
     }
 
     @Test
-    void 주문생성_재고없음_예외발생() {
+    void 주문_생성_재고_없음_예외발생() {
         assertThatThrownBy(() -> new OrderProduct(productsWithPromotion, 0))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ERROR_GENERIC_INVALID_INPUT);
     }
 
     @Test
-    void 프로모션할인_적용가능한수량계산() {
+    void 프로모션_할인_적용가능한_수량_계산() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 7);
         int discountQuantity = orderProduct.calculateDiscountQuantity();
         assertEquals(2, discountQuantity); // 2+1 프로모션에서 7개 주문 시 2개 할인
     }
 
     @Test
-    void 프로모션할인금액_계산() {
+    void 프로모션_할인_금액_계산() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 7);
         int discountQuantity = orderProduct.calculateDiscountQuantity();
         int discountAmount = orderProduct.calculatePromotionDiscount(discountQuantity);
@@ -63,14 +63,14 @@ class OrderProductTest {
     }
 
     @Test
-    void 프로모션혜택적용() {
+    void 프로모션_혜택_적용() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 6);
         orderProduct.applyPromotion(1);
         assertEquals(7, orderProduct.getQuantity());
     }
 
     @Test
-    void 프로모션이없는재고_처리() {
+    void 프로모션이_없는_재고_처리() {
         OrderProduct orderProduct = new OrderProduct(productsWithoutPromotion, 3);
         assertFalse(orderProduct.hasAcquireBenefitPromotion());
         assertEquals(3, orderProduct.getQuantity());
@@ -84,21 +84,21 @@ class OrderProductTest {
     }
 
     @Test
-    void 재고초기화() {
+    void 재고_초기화() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 5);
         orderProduct.setResetQuantity();
         assertEquals(0, orderProduct.getQuantity());
     }
 
     @Test
-    void 총혜택수량계산() {
+    void 총_혜택_수량_계산() {
         OrderProduct orderProduct = new OrderProduct(productsWithPromotion, 10);
         int totalBenefit = orderProduct.calculateDiscountQuantity();
         assertEquals(3, totalBenefit); // 2+1 프로모션에서 10개 주문 시 3개 혜택 계산
     }
 
     @Test
-    void 프로모션이없는_상품_주문시_할인불가능() {
+    void 프로모션이_없는_상품_주문시_할인불가능() {
         OrderProduct orderProduct = new OrderProduct(productsWithoutPromotion, 5);
         assertEquals(0, orderProduct.calculateDiscountQuantity());
         assertEquals(0, orderProduct.calculatePromotionDiscount(0));
