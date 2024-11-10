@@ -1,5 +1,6 @@
 package store.controller;
 
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import store.domain.Receipt;
 import store.service.StoreService;
 import store.view.InputView;
@@ -10,10 +11,10 @@ public class StoreController {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public StoreController(InputView inputView, OutputView outputView) {
+    public StoreController(InputView inputView, OutputView outputView, StoreService storeService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.storeService = new StoreService();
+        this.storeService = storeService;
     }
 
     public void run() {
