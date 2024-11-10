@@ -68,7 +68,7 @@ public class Products {
                 .filter(product -> product.getName().equals(productName))
                 .collect(Collectors.toList());
 
-        if (matchingProducts.isEmpty()) {
+        if (matchingProducts.isEmpty()) { // 유효성 검사
             throw new IllegalArgumentException(ERROR_NON_EXISTENT_PRODUCT);
         }
 

@@ -1,5 +1,7 @@
 package store.domain.product;
 
+import static store.constants.ErrorMessage.ERROR_QUANTITY_EXCEEDS_STOCK;
+
 import java.time.LocalDateTime;
 import store.domain.promotion.Promotion;
 
@@ -17,14 +19,10 @@ public class Product {
     }
 
     public void updateQuantity(int count) {
-        quantity -= count;
-    }
-
-    public boolean isValidProductName(String inputName) {
-        if (name.equals(inputName)) {
-            return true;
+        if (quantity < count) {
+            throw new IllegalArgumentException(ERROR_QUANTITY_EXCEEDS_STOCK);
         }
-        return false;
+        quantity -= count;
     }
 
     public boolean hasPromotion() {
