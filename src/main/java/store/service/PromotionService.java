@@ -19,37 +19,28 @@ public class PromotionService {
     }
 
     private int processOrderProductPromotion(OrderProduct orderProduct, InputView inputView, OutputView outputView) {
-        int discountQuantity = 0;
-
         while (true) {
             try {
-                if (orderProduct.isBenefitExceedsPromotionStock() && orderProduct.hasPromotionOnDate()) {
-                    discountQuantity = handleExceedingPromotionStock(orderProduct, inputView, outputView);
-                    if (discountQuantity == 0) {
-                        break;
-                    }
+                if (needsToHandleExceedingStock(orderProduct)) {
+                    return handleExceedingPromotionStock(orderProduct, inputView, outputView);
                 }
-                discountQuantity = processPromotion(orderProduct, inputView, outputView);
-                break;
+                return processPromotion(orderProduct, inputView, outputView);
             } catch (IllegalArgumentException e) {
                 outputView.printResult(e.getMessage());
             }
         }
+    }
 
-        return discountQuantity;
+    private boolean needsToHandleExceedingStock(OrderProduct orderProduct) {
+        return orderProduct.isBenefitExceedsPromotionStock() && orderProduct.hasPromotionOnDate();
     }
 
     private int handleExceedingPromotionStock(OrderProduct orderProduct, InputView inputView, OutputView outputView) {
         int discountQuantity = orderProduct.calculateDiscountQuantity();
-        boolean continueBuying = handleInsufficientPromotionStock(orderProduct, inputView, outputView);
-
-        if (continueBuying) {
-            orderProduct.buyProduct();
+        if (!handleInsufficientPromotionStock(orderProduct, inputView, outputView)) {
+            return 0;
         }
-        if (!continueBuying){
-            discountQuantity = 0;
-        }
-
+        orderProduct.buyProduct();
         return discountQuantity;
     }
 
@@ -76,17 +67,19 @@ public class PromotionService {
         int discountQuantity = orderProduct.calculateDiscountQuantity();
         orderProduct.buyProduct();
 
-        boolean hasPromotion = orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate();
-        if (hasPromotion) {
+        if (canApplyPromotion(orderProduct)) {
             String userInput = inputView.readPromotionBenefit(orderProduct.getName(), orderProduct.getBenefitCount());
             InputValidator.validateUserInput(userInput);
 
             if ("Y".equalsIgnoreCase(userInput)) {
                 orderProduct.applyPromotion(orderProduct.getBenefitCount());
-                discountQuantity = orderProduct.calculateDiscountQuantity();
+                return orderProduct.calculateDiscountQuantity();
             }
         }
-
         return discountQuantity;
+    }
+
+    private boolean canApplyPromotion(OrderProduct orderProduct) {
+        return orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate();
     }
 }

@@ -112,8 +112,7 @@ public class OrderProduct {
         int generalProduct = 0;
         for (Product product : products) {
             if (product.hasPromotion()) {
-                remainingPromotion += product.getQuantity() % (product.getPromotionBenifitCount()
-                        + product.getPromotionBuyCount()); // 2+1 상품이면 3으로 나눴을 때 나머지
+                remainingPromotion += product.getQuantity() % (product.getPromotionBenifitCount() + product.getPromotionBuyCount()); // 2+1 상품이면 3으로 나눴을 때 나머지
                 generalProduct = quantity - product.getQuantity();
             }
         }
