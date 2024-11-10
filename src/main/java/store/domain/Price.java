@@ -31,13 +31,14 @@ public class Price {
     }
 
     public int calculateMembershipDiscount() {
-        int totalDiscount = 0;
+        int totalDiscount;
+        int remainingAmount = 0;
         for (OrderProduct orderProduct : orderProducts) {
             int totalPrice = orderProduct.getQuantity() * orderProduct.getProduct().get(0).getPrice();
             int promotionDiscount = orderProduct.calculatePromotionDiscount(discountQuantity);
-            int remainingAmount = totalPrice - promotionDiscount;
-            totalDiscount += membership.calculateDiscount(remainingAmount);
+            remainingAmount += totalPrice - promotionDiscount;
         }
+        totalDiscount = membership.calculateDiscount(remainingAmount);
         return totalDiscount;
     }
 
