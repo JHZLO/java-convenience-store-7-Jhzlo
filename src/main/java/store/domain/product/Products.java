@@ -102,10 +102,9 @@ public class Products {
         for (Map.Entry<String, List<Product>> entry : groupedProducts.entrySet()) {
             List<Product> productList = entry.getValue();
 
-            // 상품 이름 기준으로 출력
             for (Product product : productList) {
-                String promotionText = product.hasPromotion() ? product.getPromotion().getPromotionName() : "";
-                String quantityText = product.getQuantity() > 0 ? product.getQuantity() + "개" : "재고 없음";
+                String promotionText = getPromotionText(product);
+                String quantityText = getQuantityText(product);
 
                 result.append(String.format("- %s %,d원 %s %s\n",
                         product.getName(),
@@ -117,5 +116,19 @@ public class Products {
         }
 
         return result.toString();
+    }
+
+    private String getPromotionText(Product product) {
+        if (product.hasPromotion()) {
+            return product.getPromotion().getPromotionName();
+        }
+        return "";
+    }
+
+    private String getQuantityText(Product product) {
+        if (product.getQuantity() > 0) {
+            return product.getQuantity() + "개";
+        }
+        return "재고 없음";
     }
 }

@@ -2,7 +2,6 @@ package store.service;
 
 import store.domain.order.Orders;
 import store.domain.product.Products;
-import store.util.InputValidator;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -16,11 +15,5 @@ public class OrderService {
                 outputView.printResult(e.getMessage());
             }
         }
-    }
-
-    public boolean checkAdditionalPurchase(InputView inputView, OutputView outputView) {
-        String userInput = inputView.readAdditionalPurchase();
-        InputValidator.validateUserInput(userInput);
-        return "Y".equals(userInput);
     }
 }

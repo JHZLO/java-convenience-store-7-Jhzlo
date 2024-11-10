@@ -25,11 +25,12 @@ public class PromotionService {
             try {
                 if (orderProduct.isBenefitExceedsPromotionStock() && orderProduct.hasPromotionOnDate()) {
                     discountQuantity = handleExceedingPromotionStock(orderProduct, inputView, outputView);
-                    if (discountQuantity == 0) break;
-                } else {
-                    discountQuantity = processPromotion(orderProduct, inputView, outputView);
-                    break;
+                    if (discountQuantity == 0) {
+                        break;
+                    }
                 }
+                discountQuantity = processPromotion(orderProduct, inputView, outputView);
+                break;
             } catch (IllegalArgumentException e) {
                 outputView.printResult(e.getMessage());
             }
@@ -40,10 +41,15 @@ public class PromotionService {
 
     private int handleExceedingPromotionStock(OrderProduct orderProduct, InputView inputView, OutputView outputView) {
         int discountQuantity = orderProduct.calculateDiscountQuantity();
-        if (!handleInsufficientPromotionStock(orderProduct, inputView, outputView)) {
-            return 0;
+        boolean continueBuying = handleInsufficientPromotionStock(orderProduct, inputView, outputView);
+
+        if (continueBuying) {
+            orderProduct.buyProduct();
         }
-        orderProduct.buyProduct();
+        if (!continueBuying){
+            discountQuantity = 0;
+        }
+
         return discountQuantity;
     }
 
@@ -70,13 +76,14 @@ public class PromotionService {
         int discountQuantity = orderProduct.calculateDiscountQuantity();
         orderProduct.buyProduct();
 
-        if (orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate()) {
+        boolean hasPromotion = orderProduct.hasAcquireBenefitPromotion() && orderProduct.hasPromotionOnDate();
+        if (hasPromotion) {
             String userInput = inputView.readPromotionBenefit(orderProduct.getName(), orderProduct.getBenefitCount());
             InputValidator.validateUserInput(userInput);
 
             if ("Y".equalsIgnoreCase(userInput)) {
                 orderProduct.applyPromotion(orderProduct.getBenefitCount());
-                return orderProduct.calculateDiscountQuantity();
+                discountQuantity = orderProduct.calculateDiscountQuantity();
             }
         }
 

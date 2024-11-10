@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 public class FileReader {
 
     public static final int REAL_VALUE_LINE_START = 1;
+    public static final String FILE_SOURCE = "src/main/resources";
 
     public static List<String> readFileData(String fileName) {
-        Path path = Paths.get("src/main/resources", fileName); // 파일 경로를 설정
+        Path path = Paths.get(FILE_SOURCE, fileName); // 파일 경로를 설정
 
         try {
             return Files.lines(path).skip(REAL_VALUE_LINE_START).collect(Collectors.toList());
