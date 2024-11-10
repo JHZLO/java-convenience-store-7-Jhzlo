@@ -100,7 +100,6 @@ public class Products {
         Map<String, List<Product>> groupedProducts = groupProductsByName(products);
 
         for (Map.Entry<String, List<Product>> entry : groupedProducts.entrySet()) {
-            String productName = entry.getKey();
             List<Product> productList = entry.getValue();
 
             // 상품 이름 기준으로 출력
