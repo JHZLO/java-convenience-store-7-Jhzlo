@@ -162,11 +162,6 @@ public class OrderProduct {
         this.quantity = 0;
     }
 
-    public int getPrice() {
-        return quantity * getProduct().get(0).getPrice();
-    }
-
-
     public int getQuantity() {
         return quantity;
     }
