@@ -39,4 +39,8 @@ public class InputView {
     private void printWhiteSpace() {
         System.out.println();
     }
+
+    public void closeConsole() {
+        Console.close();
+    }
 }

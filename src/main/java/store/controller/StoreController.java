@@ -1,6 +1,5 @@
 package store.controller;
 
-import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import store.domain.Receipt;
 import store.service.StoreService;
 import store.view.InputView;
@@ -33,6 +32,7 @@ public class StoreController {
                 outputView.printResult(e.getMessage());
             }
         }
+        inputView.closeConsole();
     }
 
     private boolean handleAdditionalPurchase() {

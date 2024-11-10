@@ -7,7 +7,6 @@ import store.domain.dto.PromotionResultDto;
 import store.domain.order.Orders;
 import store.domain.product.Products;
 import store.domain.promotion.Promotions;
-import store.util.InputValidator;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -37,7 +36,8 @@ public class StoreService {
 
     public Receipt processStore(InputView inputView, OutputView outputView) {
         Orders orders = orderService.inputOrder(inputView, outputView, products);
-        PromotionResultDto promotionResultDto = promotionService.applyPromotions(orders.getOrderProducts(), inputView, outputView);
+        PromotionResultDto promotionResultDto = promotionService.applyPromotions(orders.getOrderProducts(), inputView,
+                outputView);
 
         Membership membership = membershipService.handleMembership(inputView, outputView);
         Price price = new Price(promotionResultDto.orderProducts(), membership, promotionResultDto.discountQuantity());
