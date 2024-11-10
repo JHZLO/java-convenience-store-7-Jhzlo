@@ -32,7 +32,6 @@ public class Promotion {
                 && (orderDate.isEqual(endDate) || orderDate.isBefore(endDate));
     }
 
-
     public int getBuyCount() {
         return buyCount;
     }

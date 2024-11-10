@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import store.domain.promotion.Promotion;
 
 public class Product {
+    public static final String NO_QUANTITY = "재고없음";
     private final String name;
     private final int price;
     private Integer quantity;
@@ -46,7 +47,7 @@ public class Product {
         if (quantity > 0) {
             quantityText = quantity + "개";
         } else {
-            quantityText = "재고없음";
+            quantityText = NO_QUANTITY;
         }
         return String.format("- %s %,d원 %s %s", name, price, quantityText, promotionText);
     }

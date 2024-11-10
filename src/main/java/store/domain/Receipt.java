@@ -5,6 +5,12 @@ import java.util.List;
 import store.domain.order.OrderProduct;
 
 public class Receipt {
+    private static final String PURCHASE_HEADER = "상품명\t\t수량\t금액\n";
+    private static final String TOTAL_PURCHASE = "총구매액\t\t%,d\t%d\n";
+    private static final String PROMOTION_DISCOUNT = "행사할인\t\t\t-%,d\n";
+    private static final String MEMBERSHIP_DISCOUNT = "멤버십할인\t\t-%,d\n";
+    private static final String FINAL_PRICE = "내실돈\t\t\t%,d\n";
+
     private final List<String> purchaseDetails; // 구매 상품 내역
     private final List<String> giftDetails; // 증정 상품 내역
     private final Price price;
@@ -47,7 +53,7 @@ public class Receipt {
     public String toString() {
         StringBuilder receipt = new StringBuilder();
         receipt.append("==============W 편의점================\n");
-        receipt.append("상품명\t\t수량\t금액\n");
+        receipt.append(PURCHASE_HEADER);
         for (String detail : purchaseDetails) {
             receipt.append(detail).append("\n");
         }
@@ -56,10 +62,10 @@ public class Receipt {
             receipt.append(gift).append("\n");
         }
         receipt.append("====================================\n");
-        receipt.append(String.format("총구매액\t\t%,d\t%d\n", purchaseDetails.size(), price.calculateTotalPrice()));
-        receipt.append(String.format("행사할인\t\t\t-%,d\n", price.calculatePromotionDiscount()));
-        receipt.append(String.format("멤버십할인\t\t-%,d\n", price.calculateMembershipDiscount()));
-        receipt.append(String.format("내실돈\t\t\t%,d\n", price.calculateFinalPrice()));
+        receipt.append(String.format(TOTAL_PURCHASE, purchaseDetails.size(), price.calculateTotalPrice()));
+        receipt.append(String.format(PROMOTION_DISCOUNT, price.calculatePromotionDiscount()));
+        receipt.append(String.format(MEMBERSHIP_DISCOUNT, price.calculateMembershipDiscount()));
+        receipt.append(String.format(FINAL_PRICE, price.calculateFinalPrice()));
         return receipt.toString();
     }
 }

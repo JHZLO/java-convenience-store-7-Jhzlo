@@ -4,6 +4,7 @@ import java.util.List;
 import store.domain.order.OrderProduct;
 
 public class Price {
+    public static final int PRODUCT_INDEX = 0;
     private final List<OrderProduct> orderProducts;
     private final Membership membership;
     private final int discountQuantity;
@@ -17,7 +18,7 @@ public class Price {
     public int calculateTotalPrice() {
         int totalPrice = 0;
         for (OrderProduct orderProduct : orderProducts) {
-            totalPrice += orderProduct.getQuantity() * orderProduct.getProduct().get(0).getPrice();
+            totalPrice += orderProduct.getQuantity() * orderProduct.getProduct().get(PRODUCT_INDEX).getPrice();
         }
         return totalPrice;
     }
@@ -34,7 +35,7 @@ public class Price {
         int totalDiscount;
         int remainingAmount = 0;
         for (OrderProduct orderProduct : orderProducts) {
-            int totalPrice = orderProduct.getQuantity() * orderProduct.getProduct().get(0).getPrice();
+            int totalPrice = orderProduct.getQuantity() * orderProduct.getProduct().get(PRODUCT_INDEX).getPrice();
             int promotionDiscount = orderProduct.calculatePromotionDiscount(discountQuantity);
             remainingAmount += totalPrice - promotionDiscount;
         }

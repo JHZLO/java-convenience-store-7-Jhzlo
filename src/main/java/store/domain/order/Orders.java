@@ -13,6 +13,8 @@ public class Orders {
     private static final int MENU_LENGTH = 2;
     private static final int PRODUCT_NAME_INDEX = 0;
     private static final int PRODUCT_QUANTITY_INDEX = 1;
+    public static final String VALUE_SPLIT_COMMA = ",";
+    public static final String MEBU_SPLIT_DASH = "-";
 
     private final List<OrderProduct> orderProducts;
 
@@ -30,9 +32,9 @@ public class Orders {
 
     private List<OrderProduct> addOrders(String input, Products products) {
         List<OrderProduct> orderProducts = new ArrayList<>();
-        String[] parts = input.split(",");
+        String[] parts = input.split(VALUE_SPLIT_COMMA);
         for (String part : parts) {
-            String[] menu = part.replaceAll(SQUARE_BRACKETS, "").split("-");
+            String[] menu = part.replaceAll(SQUARE_BRACKETS, "").split(MEBU_SPLIT_DASH);
             if (menu.length == MENU_LENGTH) {
                 String name = menu[PRODUCT_NAME_INDEX];
                 int quantity = InputParser.parseInt(menu[PRODUCT_QUANTITY_INDEX]);

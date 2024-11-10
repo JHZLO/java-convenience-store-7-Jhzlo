@@ -1,7 +1,6 @@
 package store.domain.promotion;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import store.util.FileReader;
 import store.util.InputParser;
@@ -39,9 +38,5 @@ public class Promotions {
             }
         }
         return null;
-    }
-
-    public List<Promotion> getPromotions() {
-        return Collections.unmodifiableList(promotions);
     }
 }
